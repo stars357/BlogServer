@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    username: stars
+    password: stars357
+    url: jdbc:mysql://47.103.192.156:3306/starryblogdev?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 10
+      idle-timeout: 30000
+      maximum-pool-size: 20
+      max-lifetime: 120000
+      connection-timeout: 30000
+
+server:
+  port: 8000
+
+#整合mybatis
+mybatis:
+  type-aliases-package: com.blog.entity
+  mapper-locations: classpath:mybatis/mapper/*.xml

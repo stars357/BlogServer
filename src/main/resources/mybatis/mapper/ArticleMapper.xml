@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace：绑定一个对应的dao/Mapper接口-->
+<mapper namespace="com.blog.mapper.ArticleMapper">
+
+<!--    查询全部文章-->
+    <resultMap id="ArticleMap" type="java.util.Map">
+        <result column="art_id" property="id"></result>
+        <result column="art_title" property="title"></result>
+<!--        <result column="art_text" property="text"></result>-->
+        <collection property="tags" javaType="java.util.List" ofType="java.util.Map">
+<!--            <result column="tag_id" property="id"></result>-->
+            <result column="tag_name" property="name"></result>
+            <result column="tag_bgcolor" property="bgColor"></result>
+        </collection>
+    </resultMap>
+    <select id="getArticleAll" resultMap="ArticleMap">
+        SELECT act.art_id,act.art_title,tag.tag_name,tag.tag_bgcolor FROM article_info AS act LEFT JOIN (article_tag AS ata LEFT JOIN tag_info AS tag ON ata.tag_id = tag.tag_id) ON act.art_id = ata.article_id
+    </select>
+
+<!--    分页查询文章-->
+    <resultMap id="PageArticleMap" type="java.util.Map">
+        <result column="art_id" property="id"></result>
+        <result column="art_title" property="title"></result>
+<!--        <result column="art_text" property="text"></result>-->
+        <collection property="tags" javaType="java.util.List" select="getArticleTag" column="tag_art_id"></collection>
+    </resultMap>
+    <select id="getArticlePage" resultMap="PageArticleMap">
+        SELECT art_id,art_title,art_id as tag_art_id FROM article_info LIMIT #{pageIndex},#{number}
+    </select>
+    <select id="getArticleTag" resultType="java.util.Map">
+        SELECT tag.tag_name AS name,tag.tag_bgcolor AS bgColor FROM article_tag AS ata LEFT JOIN tag_info AS tag ON ata.tag_id = tag.tag_id WHERE ata.article_id = #{id}
+    </select>
+
+<!--    根据id查找文章-->
+    <resultMap id="ArticleAndTag" type="com.blog.entity.Article">
+        <result column="art_id" property="id"></result>
+        <result column="art_title" property="title"></result>
+        <result column="art_text" property="text"></result>
+        <collection property="tags" ofType="com.blog.entity.Tag">
+            <result column="tag_id" property="id"></result>
+            <result column="tag_name" property="name"></result>
+            <result column="tag_bgcolor" property="bgColor"></result>
+        </collection>
+    </resultMap>
+    <select id="findArticleById" resultMap="ArticleAndTag">
+        SELECT act.art_id,act.art_title,act.art_text,tag.tag_id,tag.tag_name,tag.tag_bgcolor FROM article_info AS act LEFT JOIN (article_tag AS ata LEFT JOIN tag_info AS tag ON ata.tag_id = tag.tag_id) ON act.art_id = ata.article_id where art_id = #{id}
+    </select>
+    
+<!--    添加文章-->
+    <insert id="addArticle" parameterType="com.blog.entity.Article" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO article_info (art_title,art_text) VALUES(#{title},#{text})
+    </insert>
+
+<!--    添加文章标签-->
+    <insert id="addArticleTag">
+        INSERT INTO article_tag (article_id,tag_id) VALUES (#{aid},#{tid})
+    </insert>
+
+<!--    删除文章-->
+    <delete id="deleteArticleById" parameterType="int">
+        DELETE FROM article_info WHERE art_id = #{id}
+    </delete>
+
+<!--    删除文章标签-->
+    <delete id="deleteArticleTag">
+        DELETE FROM article_tag WHERE article_id = #{aid} and tag_id = #{tid}
+    </delete>
+
+<!--    更新文章-->
+    <update id="updateArticle" parameterType="com.blog.entity.Article">
+        UPDATE article_info SET art_title=#{title},art_text=#{text} WHERE art_id = #{id}
+    </update>
+
+<!--    根据标签id获取所有有关系的文章id-->
+    <select id="getArticleIdByTagId" resultType="java.lang.Integer">
+        SELECT article_id FROM article_tag WHERE tag_id = #{tid} LIMIT #{pageIndex},#{number}
+    </select>
+</mapper>

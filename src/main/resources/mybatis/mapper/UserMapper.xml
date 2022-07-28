@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace：绑定一个对应的dao/Mapper接口-->
+<mapper namespace="com.blog.mapper.UserMapper">
+    <!--    常用resultMap/resultType返回数据-->
+
+<!--    <resultMap id="BaseResultMap" type="com.blog.entity.User" >-->
+<!--        <result column="use_id" property="id"></result>-->
+<!--        <result column="use_name" property="name"></result>-->
+<!--        <result column="use_password" property="pwd"></result>-->
+<!--    </resultMap>-->
+
+    <select id="getUserByName" parameterType="java.lang.String" resultType="com.blog.entity.User" >
+        SELECT use_id,use_name,use_password FROM user_info where use_name = #{name};
+    </select>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace：绑定一个对应的dao/Mapper接口-->
+<mapper namespace="com.blog.mapper.TagMapper">
+<!--    获取全部标签-->
+    <select id="getTagAll" resultType="com.blog.entity.Tag">
+        SELECT tag_id AS id,tag_name AS name,tag_bgcolor AS bgColor FROM tag_info
+    </select>
+
+<!--    添加标签-->
+    <insert id="addTag" parameterType="com.blog.entity.Tag">
+        INSERT INTO tag_info (tag_name,tag_bgcolor) VALUES (#{name},#{bgColor})
+    </insert>
+
+<!--    修改标签-->
+    <update id="updateTag" parameterType="com.blog.entity.Tag">
+        UPDATE tag_info SET tag_name=#{name},tag_bgcolor=#{bgColor} WHERE tag_id = #{id}
+    </update>
+
+<!--    删除标签-->
+    <delete id="deleteTag">
+        DELETE FROM tag_info WHERE tag_id = #{tid}
+    </delete>
+
+<!--    删除所有文章与指定标签的关系-->
+    <delete id="deleteTagLinkArticle">
+        DELETE FROM article_tag WHERE tag_id = #{tid}
+    </delete>
+
+</mapper>
