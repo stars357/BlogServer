@@ -38,4 +38,9 @@ public class BlogArticleController {
     public ResponseResult getArticlePageByTagId(@RequestBody Map<String, Integer> map){
         return articleService.getArticlePageByTagId(map.get("tid"), map.get("page"), map.get("number"));
     }
+
+    @GetMapping("/count")
+    public ResponseResult getArticleNumber(){
+        return articleService.getArticleNumber();
+    }
 }

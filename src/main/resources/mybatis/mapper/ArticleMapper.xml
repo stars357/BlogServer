@@ -79,4 +79,9 @@
     <select id="getArticleIdByTagId" resultType="java.lang.Integer">
         SELECT article_id FROM article_tag WHERE tag_id = #{tid} LIMIT #{pageIndex},#{number}
     </select>
+
+<!--    获取文章数量-->
+    <select id="getArticleNumber" resultType="int">
+        SELECT COUNT(art_id) FROM article_info
+    </select>
 </mapper>

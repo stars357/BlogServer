@@ -17,4 +17,6 @@ public interface ArticleService {
     ResponseResult deleteArticle(Article article);
 
     ResponseResult getArticlePageByTagId(int tid, int page, int number);
+
+    ResponseResult getArticleNumber();
 }

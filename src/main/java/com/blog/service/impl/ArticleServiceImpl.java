@@ -79,4 +79,9 @@ public class ArticleServiceImpl implements ArticleService {
         });
         return new ResponseResult(200, "标签文章查询成功", articles);
     }
+
+    @Override
+    public ResponseResult getArticleNumber() {
+        return new ResponseResult(200, "获取文章数量成功", articleMapper.getArticleNumber());
+    }
 }

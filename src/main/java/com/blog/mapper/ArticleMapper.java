@@ -31,5 +31,6 @@ public interface ArticleMapper {
 
     List<Integer> getArticleIdByTagId(@Param("tid")int tid, @Param("pageIndex")int pageIndex, @Param("number")int number);
 
+    int getArticleNumber();
 
 }
