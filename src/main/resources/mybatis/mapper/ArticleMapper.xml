@@ -70,6 +70,11 @@
         DELETE FROM article_tag WHERE article_id = #{aid} and tag_id = #{tid}
     </delete>
 
+    <!--    删除文章所有标签-->
+    <delete id="deleteArticleTagAll">
+        DELETE FROM article_tag WHERE article_id = #{aid}
+    </delete>
+
 <!--    更新文章-->
     <update id="updateArticle" parameterType="com.blog.entity.Article">
         UPDATE article_info SET art_title=#{title},art_text=#{text} WHERE art_id = #{id}

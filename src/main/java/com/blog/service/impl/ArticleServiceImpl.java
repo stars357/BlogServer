@@ -63,10 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
         int aid = article.getId();
 //        System.out.println(aid);
         articleMapper.deleteArticleById(aid);
-        List<Tag> tags = article.getTags();
-        tags.stream().forEach(tag -> {
-            articleMapper.deleteArticleTag(aid, tag.getId());
-        });
+        articleMapper.deleteArticleTagAll(aid);
         return new ResponseResult(200, "删除文章成功");
     }
 

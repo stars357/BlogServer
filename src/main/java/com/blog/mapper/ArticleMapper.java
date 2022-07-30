@@ -27,6 +27,8 @@ public interface ArticleMapper {
 
     Boolean deleteArticleTag(@Param("aid")int aid, @Param("tid")int tid);
 
+    Boolean deleteArticleTagAll(@Param("aid")int aid);
+
     Boolean updateArticle(Article article);
 
     List<Integer> getArticleIdByTagId(@Param("tid")int tid, @Param("pageIndex")int pageIndex, @Param("number")int number);
