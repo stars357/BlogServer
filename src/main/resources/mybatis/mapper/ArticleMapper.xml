@@ -25,11 +25,11 @@
     <resultMap id="PageArticleMap" type="java.util.Map">
         <result column="art_id" property="id"></result>
         <result column="art_title" property="title"></result>
-<!--        <result column="art_text" property="text"></result>-->
+        <result column="art_text" property="text"></result>
         <collection property="tags" javaType="java.util.List" select="getArticleTag" column="tag_art_id"></collection>
     </resultMap>
     <select id="getArticlePage" resultMap="PageArticleMap">
-        SELECT art_id,art_title,art_id as tag_art_id FROM article_info LIMIT #{pageIndex},#{number}
+        SELECT art_id,art_title,LEFT(art_text,200) AS art_text,art_id as tag_art_id FROM article_info LIMIT #{pageIndex},#{number}
     </select>
     <select id="getArticleTag" resultType="java.util.Map">
         SELECT tag.tag_name AS name,tag.tag_bgcolor AS bgColor FROM article_tag AS ata LEFT JOIN tag_info AS tag ON ata.tag_id = tag.tag_id WHERE ata.article_id = #{id}
